@@ -18,8 +18,10 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'click_merchant_id' => env('CLICK_MERCHANT_ID'),
     'click_service_id' => env('CLICK_SERVICE_ID'),
     'click_secret_key' => env('CLICK_SECRET_KEY'),
+    'click_user_id' => env('CLICK_USER_ID'),
 
     /*
     |--------------------------------------------------------------------------
