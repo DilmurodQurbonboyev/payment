@@ -119,10 +119,10 @@ class ClickController extends Controller
                             return response()->json($result);
                         }
                         DB::commit();
-                        if (!empty($product)) {
-                            $product->collected = $product->collected + $transaction->amount;
-                            $product->save();
-                        }
+//                        if (!empty($product)) {
+//                            $product->collected = $product->collected + $transaction->amount;
+//                            $product->save();
+//                        }
                         $result['error'] = 0;
                         $result['error_note'] = "Success";
                         $result['merchant_confirm_id'] = $transaction->id;
