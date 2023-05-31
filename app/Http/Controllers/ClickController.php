@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Services\Click\ClickException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class ClickController extends Controller
             'merchant_trans_id' => $request->merchant_trans_id,
         ];
 
-        $product = Product::query()->where('id', $request->merchant_trans_id)->first();
+        $product = Order::query()->where('id', $request->merchant_trans_id)->first();
         $transaction = ClickTransaction::query()->where('click_trans_id', $request->click_trans_id)->first();
 
         if ($transaction !== null) {
@@ -101,7 +102,7 @@ class ClickController extends Controller
             ->where('click_paydoc_id', $request->click_paydoc_id)
             ->first();
 
-        $product = Product::query()->where('id', $request->merchant_prepare_id)->first();
+        $product = Order::query()->where('id', $request->merchant_prepare_id)->first();
 
         if ($transaction !== null) {
             # Check for request error to 0!
@@ -127,13 +128,11 @@ class ClickController extends Controller
                         $result['merchant_confirm_id'] = $transaction->id;
 //                        $result['merchant_prepare_id'] = $request->merchant_prepare_id;
                         return response()->json($result);
-                    }
-                    elseif ($transaction->status == ClickTransaction::STATUS_CANCEL) {
+                    } elseif ($transaction->status == ClickTransaction::STATUS_CANCEL) {
                         $result['error'] = ClickException::TRANSACTION_CANCELLED;
                         $result['error_note'] = "Transaction cancelled";
                         return response()->json($result);
-                    }
-                    elseif ($transaction->status == ClickTransaction::STATUS_ACTIVE) {
+                    } elseif ($transaction->status == ClickTransaction::STATUS_ACTIVE) {
                         $result['error'] = ClickException::ALREADY_PAID;
                         $result['error_note'] = "Already paid";
                         return response()->json($result);
@@ -166,8 +165,7 @@ class ClickController extends Controller
                         $result['error_note'] = "Unknown Error";
                         return response()->json($result);
                     }
-                }
-                elseif ($request->error == -1 && $transaction->status == ClickTransaction::STATUS_ACTIVE) {
+                } elseif ($request->error == -1 && $transaction->status == ClickTransaction::STATUS_ACTIVE) {
                     $result['error'] = ClickException::ALREADY_PAID;
                     $result['error_note'] = "Already paid";
                     return response()->json($result);
