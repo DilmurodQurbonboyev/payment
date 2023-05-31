@@ -25,10 +25,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/order', [OrderController::class, 'store']);
 Route::get('/order/{id}', [OrderController::class, 'getById']);
 
-Route::controller(ClickController::class)
-//    ->middleware('clickSignString')
-    ->withoutMiddleware([VerifyCsrfToken::class])
-    ->group(function () {
-        Route::post('/click-prepare', 'prepare');
-        Route::post('/click-complete', 'complete');
-    });
+
