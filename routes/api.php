@@ -26,7 +26,7 @@ Route::post('/order', [OrderController::class, 'store']);
 Route::get('/order/{id}', [OrderController::class, 'getById']);
 
 Route::controller(ClickController::class)
-    ->middleware('clickSignString')
+//    ->middleware('clickSignString')
     ->withoutMiddleware([VerifyCsrfToken::class])
     ->group(function () {
         Route::post('/click-prepare', 'prepare');
